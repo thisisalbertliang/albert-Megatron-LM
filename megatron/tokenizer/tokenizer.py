@@ -44,6 +44,9 @@ def build_tokenizer(args):
                                   'implemented.'.format(args.tokenizer_type))
 
     # Add vocab size.
+    print(f'ALBERT_DEBUG: tokenizer = {tokenizer}')
+    print(f'ALBERT_DEBUG: tokenizer.vocab_size = {tokenizer.vocab_size}')
+    
     args.padded_vocab_size = _vocab_size_with_padding(tokenizer.vocab_size,
                                                       args)
 
@@ -56,7 +59,7 @@ def _vocab_size_with_padding(orig_vocab_size, args):
 
     after = orig_vocab_size
     multiple = args.make_vocab_size_divisible_by * \
-        args.model_parallel_size
+        args.max_model_parallel_size
     while (after % multiple) != 0:
         after += 1
     if args.rank == 0:
